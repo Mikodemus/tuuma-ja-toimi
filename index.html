@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f6f2">
+  <title>Tuuma&amp;Toimi</title>
+  <style>
+    :root {
+      --text:#405047; --muted:#68766e; --sage:#7f9888; --sage-dark:#5f7868;
+      --sage-pale:#edf3ee; --blush:#f7efec; --cream:#fffdf9;
+      --line:#dfe8e1; --shadow:rgba(76,96,84,.11);
+    }
+    * { box-sizing:border-box; }
+    html,body { width:100%; min-height:100%; margin:0; }
+    body {
+      font-family:Aptos,"Segoe UI",Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 8% 8%,rgba(247,239,236,.95),transparent 30rem),
+        radial-gradient(circle at 94% 92%,rgba(229,239,231,.95),transparent 34rem),
+        #f8faf7;
+    }
+    .page {
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:minmax(360px,.92fr) minmax(500px,1.08fr);
+      gap:clamp(22px,3vw,48px);
+      width:min(1500px,100%);
+      margin:0 auto;
+      padding:clamp(18px,2.2vw,34px);
+      align-items:stretch;
+    }
+    .intro {
+      display:flex; flex-direction:column; justify-content:center;
+      padding:clamp(8px,1.8vw,26px);
+      min-width:0;
+    }
+    .identity { display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+    .mark {
+      width:48px; height:48px; flex:0 0 48px; border-radius:17px;
+      display:grid; place-items:center; background:var(--sage-pale);
+      color:var(--sage-dark); font-size:17px; font-weight:760;
+    }
+    .brand { font-size:clamp(25px,2.5vw,35px); font-weight:720; letter-spacing:-1px; }
+    .brand span { color:var(--sage); }
+    h1 {
+      margin:0 0 20px; max-width:650px;
+      font-size:clamp(32px,3.8vw,53px); line-height:1.06;
+      letter-spacing:-1.8px; font-weight:620;
+    }
+    .copy {
+      max-width:670px; color:var(--muted);
+      font-size:clamp(15px,1.18vw,18px); line-height:1.55;
+    }
+    .copy p { margin:0 0 14px; }
+    .method {
+      margin:18px 0; padding:17px 20px; border-radius:19px;
+      background:linear-gradient(135deg,var(--sage-pale),#f5f8f5);
+      color:var(--text); line-height:1.5;
+    }
+    .method strong { color:var(--sage-dark); }
+    .invitation { color:var(--sage-dark); font-weight:680; }
+    .privacy { margin:9px 0 0; color:#819087; font-size:12px; line-height:1.4; }
+    .conversation {
+      min-height:0;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding:clamp(28px,4vw,58px);
+      border:1px solid var(--line); border-radius:32px;
+      background:rgba(255,253,249,.92); box-shadow:0 24px 65px var(--shadow);
+    }
+    .conversation-icon {
+      width:70px; height:70px; border-radius:25px; display:grid; place-items:center;
+      margin-bottom:22px; background:var(--blush); color:var(--sage-dark); font-size:28px;
+    }
+    .conversation h2 {
+      margin:0 0 13px; max-width:560px; font-size:clamp(27px,3vw,41px);
+      line-height:1.12; letter-spacing:-1.1px; font-weight:620;
+    }
+    .conversation p {
+      max-width:540px; margin:0 0 25px; color:var(--muted);
+      font-size:clamp(15px,1.25vw,18px); line-height:1.55;
+    }
+    .button {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:54px; padding:0 27px; border-radius:18px;
+      background:var(--sage); color:white; text-decoration:none;
+      font-size:17px; font-weight:700; box-shadow:0 12px 28px rgba(95,120,104,.18);
+    }
+    .button:hover { background:var(--sage-dark); }
+    .small { margin-top:13px; color:#849188; font-size:12px; }
+
+    @media (min-width:951px) and (min-height:700px) {
+      html,body { height:100%; overflow:hidden; }
+      .page { height:100vh; min-height:0; }
+    }
+    @media (min-width:951px) and (max-height:820px) {
+      .page { padding:14px 22px; gap:28px; }
+      .intro { padding:6px 14px; }
+      .identity { margin-bottom:14px; }
+      .mark { width:42px; height:42px; flex-basis:42px; border-radius:15px; font-size:15px; }
+      .brand { font-size:27px; }
+      h1 { font-size:clamp(30px,3.2vw,45px); margin-bottom:14px; }
+      .copy { font-size:15px; line-height:1.42; }
+      .copy p { margin-bottom:10px; }
+      .method { margin:12px 0; padding:13px 17px; line-height:1.42; }
+      .privacy { margin-top:5px; font-size:11px; }
+      .conversation { padding:28px; border-radius:27px; }
+      .conversation-icon { width:60px; height:60px; margin-bottom:16px; }
+      .conversation h2 { font-size:34px; }
+    }
+    @media (max-width:950px) {
+      .page { grid-template-columns:1fr; padding:16px; }
+      .intro { padding:20px 10px; }
+      .conversation { min-height:520px; border-radius:28px; }
+    }
+    @media (max-width:560px) {
+      .page { padding:10px; }
+      .intro { padding:18px 8px; }
+      .identity { margin-bottom:24px; }
+      h1 { letter-spacing:-1.3px; }
+      .conversation { min-height:470px; padding:30px 20px; }
+      .button { width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="intro" aria-labelledby="title">
+      <div class="identity">
+        <div class="mark" aria-hidden="true">T&amp;T</div>
+        <div class="brand">Tuuma<span>&amp;Toimi</span></div>
+      </div>
+      <h1 id="title">Moi, nimeni on Tuuma&amp;Toimi. Mukavaa, että olet täällä.</h1>
+      <div class="copy">
+        <p>Olen tässä sinua ja yritystäsi varten. Sinun ei tarvitse tietää valmiiksi, mikä olisi oikea ratkaisu tai edes mistä kannattaisi aloittaa. Saat tulla juuri niiden ajatusten kanssa, joita sinulla on nyt.</p>
+        <p>Minä kuuntelen, kysyn ja autan sinua löytämään tilanteestasi sen, mikä on juuri nyt tärkeää. Voimme jutella esimerkiksi työmäärästäsi, myynnistä, yrityksesi kehittämisestä, kasvusta tai ensimmäisen työntekijän palkkaamisesta.</p>
+        <div class="method"><strong>Ensin Tuumataan yhdessä</strong> ja annetaan ajatuksillesi rauhassa tilaa. <strong>Sitten Toimitaan yhdessä</strong> ja löydetään sinulle sopiva seuraava askel.</div>
+        <p class="invitation">Kerro vain omin sanoin, mitä mielessäsi on. Lähdetään siitä yhdessä liikkeelle.</p>
+      </div>
+      <p class="privacy">Älä kirjoita keskusteluun henkilötunnuksia, pankkitietoja tai muita arkaluonteisia tietoja.</p>
+    </section>
+    <section class="conversation" aria-label="Keskustelun aloitus">
+      <div class="conversation-icon" aria-hidden="true">☁</div>
+      <h2>Tässä on tilaa sinun ajatuksillesi.</h2>
+      <p>Voit aloittaa juuri siitä, mikä yrityksessäsi tai omassa arjessasi mietityttää tällä hetkellä. Mitään ei tarvitse muotoilla valmiiksi.</p>
+      <a class="button" href="https://copilotstudio.microsoft.com/environments/Default-dde5dc12-bd3c-4c06-85cc-34361efe9ad4/bots/crfe4_tuumatoimi_y5JJhu/webchat?__version__=2&enableFileAttachment=false&cliAgent=true" target="_blank" rel="noopener noreferrer">Aloita keskustelu Tuuma&amp;Toimen kanssa</a>
+      <div class="small">Keskustelu avautuu isona omaan välilehteensä.</div>
+    </section>
+  </main>
+</body>
+</html>
