@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf3ee">
+  <title>Tuuma&amp;Toimi</title>
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+  <style>
+    :root {
+      --text: #405047;
+      --muted: #68766e;
+      --sage: #7f9888;
+      --sage-dark: #5f7868;
+      --pale: #edf3ee;
+      --cream: #fffdf9;
+      --line: #dfe8e1;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Aptos, "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: #f6f8f5;
+    }
+    main {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      max-width: 980px;
+      margin: auto;
+      padding: 18px;
+      gap: 14px;
+    }
+    header {
+      padding: 18px 22px;
+      border-radius: 20px;
+      background: var(--pale);
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -0.4px;
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    #status {
+      margin-top: 8px;
+      color: var(--sage-dark);
+      font-size: 14px;
+    }
+    #webchat {
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--cream);
+      box-shadow: 0 15px 40px rgba(76, 96, 84, 0.10);
+    }
+    #webchat .webchat__bubble__content,
+    #webchat .webchat__markdown,
+    #webchat .markdown {
+      white-space: pre-wrap !important;
+      line-height: 1.65 !important;
+    }
+    #webchat .webchat__bubble__content p,
+    #webchat .webchat__markdown p,
+    #webchat .markdown p {
+      margin: 0 0 16px !important;
+      line-height: 1.65 !important;
+    }
+    #webchat .webchat__bubble__content p:last-child,
+    #webchat .webchat__markdown p:last-child,
+    #webchat .markdown p:last-child {
+      margin-bottom: 0 !important;
+    }
+    #webchat .webchat__bubble__content br,
+    #webchat .webchat__markdown br,
+    #webchat .markdown br {
+      display: block !important;
+      content: "" !important;
+      margin-top: 12px !important;
+    }
+    #webchat .webchat__bubble__content ul,
+    #webchat .webchat__bubble__content ol,
+    #webchat .webchat__markdown ul,
+    #webchat .webchat__markdown ol {
+      margin: 12px 0 16px 24px !important;
+      padding: 0 !important;
+    }
+    #webchat .webchat__bubble__content li,
+    #webchat .webchat__markdown li {
+      margin: 7px 0 !important;
+      line-height: 1.55 !important;
+    }
+    #webchat .webchat__bubble {
+      margin-top: 10px !important;
+      margin-bottom: 10px !important;
+    }
+    @media (max-width: 640px) {
+      main { padding: 8px; }
+      header { padding: 14px 16px; border-radius: 16px; }
+      #webchat { border-radius: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Tuuma&amp;Toimi</h1>
+      <p>Tässä on tilaa sinun ajatuksillesi. Kerro omin sanoin, mitä mielessäsi on.</p>
+      <div id="status">Yhdistetään keskusteluun…</div>
+    </header>
+    <div id="webchat" role="main"></div>
+  </main>
+
+  <script>
+    (async function () {
+      const status = document.getElementById("status");
+
+      try {
+        const response = await fetch(
+          "https://tuuma-ja-toimi-token.mikko-hallamaa-1e3.workers.dev/",
+          { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+          throw new Error("Worker vastasi " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!data.token) {
+          throw new Error("Keskustelutunnus puuttuu");
+        }
+
+        const userID = "dl_" + crypto.randomUUID();
+        const directLine = window.WebChat.createDirectLine({
+          token: data.token,
+          domain: "https://europe.directline.botframework.com/v3/directline"
+        });
+
+        const styleOptions = {
+          accent: "#6f8978",
+          backgroundColor: "#fffdf9",
+          botAvatarBackgroundColor: "#7f9888",
+          botAvatarInitials: "T&T",
+          userAvatarBackgroundColor: "#d9e5dc",
+          userAvatarInitials: "Sinä",
+          bubbleBackground: "#edf3ee",
+          bubbleBorderColor: "#dfe8e1",
+          bubbleBorderRadius: 18,
+          bubbleFromUserBackground: "#7f9888",
+          bubbleFromUserBorderColor: "#7f9888",
+          bubbleFromUserBorderRadius: 18,
+          bubbleFromUserTextColor: "#ffffff",
+          bubbleTextColor: "#405047",
+          bubbleMaxWidth: 620,
+          messageActivityWordBreak: "break-word",
+          sendBoxBackground: "#ffffff",
+          sendBoxBorderTop: "1px solid #dfe8e1",
+          sendBoxButtonColor: "#5f7868",
+          sendBoxTextColor: "#405047",
+          sendBoxPlaceholderColor: "#7b8981",
+          suggestedActionBackgroundColor: "#ffffff",
+          suggestedActionBorderColor: "#7f9888",
+          suggestedActionTextColor: "#5f7868",
+          timestampColor: "#819087",
+          rootHeight: "100%",
+          rootWidth: "100%"
+        };
+
+        window.WebChat.renderWebChat(
+          {
+            directLine,
+            userID,
+            username: "Käyttäjä",
+            locale: "fi-FI",
+            styleOptions,
+            sendBoxPlaceholder: "Kirjoita viestisi…"
+          },
+          document.getElementById("webchat")
+        );
+
+        status.textContent = "Yhteys muodostettu. Voit aloittaa keskustelun.";
+
+        directLine.postActivity({
+          from: { id: userID, role: "user" },
+          type: "event",
+          name: "startConversation",
+          value: { language: "fi-FI" }
+        }).subscribe(function () {}, function () {});
+      } catch (error) {
+        status.textContent = "Yhteyden muodostaminen epäonnistui: " + error.message;
+        status.style.color = "#9b3b2f";
+        console.error(error);
+      }
+    })();
+  </script>
+</body>
+</html>
